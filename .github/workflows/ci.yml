@@ -1,0 +1,16 @@
+name: Mon Premier Pipeline
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  say-hello:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout le code
+        uses: actions/checkout@v3
+
+      - name: Dire Bonjour
+        run: echo "Hello from GitHub Actions 👋"
