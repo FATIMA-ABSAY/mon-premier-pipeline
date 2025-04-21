@@ -5,12 +5,30 @@ on:
     branches: [ main ]
 
 jobs:
-  say-hello:
+  run-tests:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout le code
+      - name: 🧾 Cloner le code
         uses: actions/checkout@v3
 
-      - name: Dire Bonjour
-        run: echo "Hello from GitHub Actions 👋"
+      - name: 🐍 Installer Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: ▶️ Lancer le script principal
+        run: python script.py
+
+      - name: ✅ Lancer les tests
+        run: python test.py
+
+      - name: 📩 Envoyer résultat à Slack
+        uses: slackapi/slack-github-action@v1.24.0
+        with:
+          payload: |
+            {
+              "text": "✅ Tests réussis sur le repo *${{ github.repository }}* 🚀"
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
